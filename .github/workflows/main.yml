@@ -17,13 +17,21 @@ jobs:
         with:
           python-version: '3.11'
 
+      # 🔥 核彈級修正：強制由系統產生 requirements.txt
+      # 這樣我們就不怕檔案是空的，也不怕有 UTF-16 亂碼問題
+      - name: Force Create requirements.txt
+        run: |
+          echo "flet" > requirements.txt
+          echo "✅ 已強制建立全新的 requirements.txt"
+          cat requirements.txt
+
       - name: Install Flet
         run: pip install flet --no-cache-dir
 
       - name: Build Web App
         run: |
-          echo "開始打包 coca-app (使用標準模式)..."
-          
+          echo "開始打包 coca-app ..."
+          # 使用標準模式，並確保 requirements.txt 有被包進去
           flet publish main.py --distpath dist --base-url /coca-app/
 
       - name: Deploy to GitHub Pages
