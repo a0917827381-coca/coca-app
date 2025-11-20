@@ -20,15 +20,16 @@ def main(page: ft.Page):
    
     page.add(
         ft.Row(
-            [
-                ft.IconButton(ft.icons.REMOVE, on_click=minus_click),
-                txt_number,
-                ft.IconButton(ft.icons.ADD, on_click=plus_click),
-            ],
-            alignment=ft.MainAxisAlignment.CENTER,
+        [
+          ft.IconButton(icon="remove", on_click=minus_click),
+          txt_number,
+          ft.IconButton(icon="add", on_click=plus_click),
+        ],
+        alignment=ft.MainAxisAlignment.CENTER,
         )
-    )
+             )
 
 
 
 ft.app(target=main)
+
