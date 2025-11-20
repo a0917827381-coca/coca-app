@@ -1,24 +1,23 @@
 import flet as ft
 
 def main(page: ft.Page):
-    # 1. ³]©w App ¼ÐÃD»P°ò¥»¼Ë¦¡
-    page.title = "§Úªº­p¼Æ¾¹ App"
+    page.title = "æˆ‘çš„è¨ˆæ•¸å™¨ App"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.theme_mode = ft.ThemeMode.LIGHT  # ¥i¥H§ï¦¨ DARK ¸Õ¸Õ¬Ý
+    page.theme_mode = ft.ThemeMode.LIGHT  
 
-    # 2. ©w¸q¤@­ÓÅã¥Ü¼Æ¦rªºÄæ¦ì
+   
     txt_number = ft.TextField(value="0", text_align=ft.TextAlign.RIGHT, width=100)
 
-    # 3. ©w¸q«ö¶sªºÄ²µo¨Æ¥ó
+    
     def minus_click(e):
         txt_number.value = str(int(txt_number.value) - 1)
-        page.update() # ³qª¾­¶­±§ó·s¼Æ¾Ú
+        page.update() 
 
     def plus_click(e):
         txt_number.value = str(int(txt_number.value) + 1)
         page.update()
 
-    # 4. ±N¤¸¥ó¥[¤J­¶­± (¨Ï¥Î Row Åý¥¦­Ì¾î¦V±Æ¦C)
+   
     page.add(
         ft.Row(
             [
@@ -30,5 +29,6 @@ def main(page: ft.Page):
         )
     )
 
-# ±Ò°Ê App
+
+
 ft.app(target=main)
