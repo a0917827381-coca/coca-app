@@ -17,25 +17,18 @@ jobs:
         with:
           python-version: '3.11'
 
-    
-      - name: Fix Filename (Auto-Heal)
-        run: |
-          if [ -f main.py.txt ]; then
-            mv main.py.txt main.py
-            echo "✅ 已將 main.py.txt 改名為 main.py"
-          fi
-          if [ -f */main.py ]; then
-             mv */main.py .
-             echo "✅ 已將資料夾內的 main.py 搬出來"
-          fi
-      # -------------------------------------
-
       - name: Install Flet
         run: pip install flet --no-cache-dir
 
       - name: Build Web App
         run: |
-          flet publish main.py --distpath dist
+          
+          REPO_NAME=$(echo "${{ github.repository }}" | awk -F / '{print $2}')
+          
+          echo "偵測到的專案名稱為: $REPO_NAME"
+          
+        
+          flet publish main.py --distpath dist --base-url /$REPO_NAME/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
