@@ -1,7 +1,7 @@
 name: Publish to Web
 
 on:
-  workflow_dispatch: # 允許手動按按鈕
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,12 +17,15 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Check Files (Debug)
+        run: ls -R # 這行會幫我們檢查 main.py 到底在不在
+
       - name: Install Flet
-        run: pip install flet
+        run: pip install flet==0.21.0
 
       - name: Build Web App
         run: |
-          # 將 main.py 編譯成網頁檔案，輸出到 dist 資料夾
+          # 嘗試打包
           flet publish main.py --app --dest dist
 
       - name: Deploy to GitHub Pages
