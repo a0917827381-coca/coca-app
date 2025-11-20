@@ -17,11 +17,12 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Check Files (Debug)
-        run: ls -R # 這行會幫我們檢查 main.py 到底在不在
+      - name: Upgrade PIP
+        run: python -m pip install --upgrade pip
 
       - name: Install Flet
-        run: pip install flet==0.21.0
+        # 不指定版本，直接裝最新版，並加上 --no-cache-dir 避免緩存錯誤
+        run: pip install flet --no-cache-dir
 
       - name: Build Web App
         run: |
