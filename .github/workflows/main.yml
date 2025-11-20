@@ -22,9 +22,9 @@ jobs:
 
       - name: Build Web App
         run: |
-          echo "開始打包 coca-app ..."
+          echo "開始打包 coca-app (使用標準模式)..."
           
-          flet publish main.py --distpath dist --base-url /coca-app/ --web-renderer html
+          flet publish main.py --distpath dist --base-url /coca-app/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
