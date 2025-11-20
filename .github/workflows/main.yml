@@ -23,12 +23,9 @@ jobs:
       - name: Build Web App
         run: |
           
-          REPO_NAME=$(echo "${{ github.repository }}" | awk -F / '{print $2}')
-          
-          echo "偵測到的專案名稱為: $REPO_NAME"
-          
-        
-          flet publish main.py --distpath dist --base-url /$REPO_NAME/
+          echo "正在打包專案: $REPO_NAME"
+
+          flet publish main.py --distpath dist --base-url /$REPO_NAME/ --web-renderer html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
