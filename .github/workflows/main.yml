@@ -1,0 +1,32 @@
+name: Publish to Web
+
+on:
+  workflow_dispatch: # 允許手動按按鈕
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Flet
+        run: pip install flet
+
+      - name: Build Web App
+        run: |
+          # 將 main.py 編譯成網頁檔案，輸出到 dist 資料夾
+          flet publish main.py --app --dest dist
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
