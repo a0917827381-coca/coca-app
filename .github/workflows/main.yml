@@ -17,16 +17,35 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Upgrade PIP
-        run: python -m pip install --upgrade pip
+      # --- 自動修復區塊 ---
+      - name: Fix Filename (Auto-Heal)
+        run: |
+          # 顯示目前檔案，讓我們看清楚
+          echo "=== 修正前的檔案列表 ==="
+          ls -R
+          
+          # 如果發現 main.py.txt，自動把它改成 main.py
+          if [ -f main.py.txt ]; then
+            mv main.py.txt main.py
+            echo "✅ 偵測到檔名錯誤，已自動修正為 main.py"
+          fi
+
+          # 如果 main.py 在下一層資料夾 (有些使用者會不小心多創一層)，把它搬出來
+          if [ -f */main.py ]; then
+             mv */main.py .
+             echo "✅ 偵測到檔案在資料夾內，已自動搬移到最外層"
+          fi
+
+          echo "=== 修正後的檔案列表 ==="
+          ls -R
+      # -------------------
 
       - name: Install Flet
-        # 不指定版本，直接裝最新版，並加上 --no-cache-dir 避免緩存錯誤
         run: pip install flet --no-cache-dir
 
       - name: Build Web App
         run: |
-          # 嘗試打包
+          # 這時候 main.py 一定要存在了，否則就是真的沒上傳檔案
           flet publish main.py --app --dest dist
 
       - name: Deploy to GitHub Pages
