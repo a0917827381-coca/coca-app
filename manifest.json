@@ -1,9 +1,9 @@
 {
-  "name": "coca-app",
-  "short_name": "coca-app",
+  "name": "Flet",
+  "short_name": "Flet",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#FFFFFF",
+  "background_color": "#ffffff",
   "theme_color": "#0175C2",
   "description": "Flet - the fastest way to build Flutter apps in Python",
   "orientation": "natural",

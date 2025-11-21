@@ -9,9 +9,9 @@
   <meta name="description" content="Flet application.">
 
   <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="coca-app">
+  <meta name="apple-mobile-web-app-title" content="Flet">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon-192.png">
 
   <!-- Favicon -->
@@ -22,7 +22,7 @@
   <meta name="flet-web-pyodide" content="true">
   <meta name="flet-websocket-endpoint-path" content="/ws">
 
-  <title>coca-app</title>
+  <title>Flet</title>
   <link rel="manifest" href="manifest.json">
 
   <script>
@@ -30,7 +30,7 @@
     var useColorEmoji = false;
   </script>
 
-  <script>webRenderer="html";</script>
+  <script>webRenderer="canvaskit";</script>
   <script>useColorEmoji=false;</script>
 
   
@@ -40,6 +40,13 @@
         </script>
         <script src="python.js"></script>
         
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = "2641812302";
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
 </head>
 
 <body>
@@ -100,6 +107,31 @@
     </style>
     <img src="icons/loading-animation.png" alt="Loading..." />
   </div>
-  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('load', function () {
+      var loading = document.querySelector('#loading');
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        }
+      }).then(function (engineInitializer) {
+        loading.classList.add('main_done');
+        return engineInitializer.initializeEngine({
+          renderer: webRenderer,
+          useColorEmoji: useColorEmoji,
+        });
+      }).then(function (appRunner) {
+        loading.classList.add('init_done');
+        return appRunner.runApp();
+      }).then(function (app) {
+        // Wait a few milliseconds so users can see the "zoooom" animation
+        // before getting rid of the "loading" div.
+        window.setTimeout(function () {
+          loading.remove();
+        }, 200);
+      });
+    });
+  </script>
 </body>
+
 </html>
