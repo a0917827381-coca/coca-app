@@ -12,26 +12,29 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # 1. 改用 Python 3.10 (對應舊版 Flet 最穩定)
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.10'
 
-      # 強制建立 requirements.txt (這次只需要 flet，因為 random 是內建的)
+      # 2. 強制指定 Flet 版本為 0.22.1 (黃金穩定版)
       - name: Force Create requirements.txt
         run: |
-          echo "flet" > requirements.txt
+          echo "flet==0.22.1" > requirements.txt
 
+      # 3. 安裝依賴
       - name: Install Flet
-        run: pip install flet --no-cache-dir
+        run: pip install -r requirements.txt --no-cache-dir
 
+      # 4. 打包
       - name: Build Web App
         run: |
-          echo "開始打包 (切換為 HTML 輕量模式)..."
+          echo "正在使用 Flet 0.22.1 進行打包..."
           
-          # ✅ 關鍵修改：加上 --web-renderer html
-          # 這會大大增加手機的相容性，解決白畫面的問題
-          flet publish main.py --distpath dist --base-url /coca-app/ --web-renderer html
+          # 這裡不需要 --web-renderer 參數，0.22.1 會自動處理
+          # 只要確保 base-url 正確即可
+          flet publish main.py --distpath dist --base-url /coca-app/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
