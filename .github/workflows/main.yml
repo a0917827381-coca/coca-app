@@ -17,22 +17,21 @@ jobs:
         with:
           python-version: '3.11'
 
-      # 🔥 核彈級修正：強制由系統產生 requirements.txt
-      # 這樣我們就不怕檔案是空的，也不怕有 UTF-16 亂碼問題
+      # 強制建立 requirements.txt (這次只需要 flet，因為 random 是內建的)
       - name: Force Create requirements.txt
         run: |
           echo "flet" > requirements.txt
-          echo "✅ 已強制建立全新的 requirements.txt"
-          cat requirements.txt
 
       - name: Install Flet
         run: pip install flet --no-cache-dir
 
       - name: Build Web App
         run: |
-          echo "開始打包 coca-app ..."
-          # 使用標準模式，並確保 requirements.txt 有被包進去
-          flet publish main.py --distpath dist --base-url /coca-app/
+          echo "開始打包 (切換為 HTML 輕量模式)..."
+          
+          # ✅ 關鍵修改：加上 --web-renderer html
+          # 這會大大增加手機的相容性，解決白畫面的問題
+          flet publish main.py --distpath dist --base-url /coca-app/ --web-renderer html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
